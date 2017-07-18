@@ -1,5 +1,6 @@
 const should = require('should')
 const parseRequest = require('../lib/parse-request.js')
+const httpMocks = require('node-mocks-http')
 
 describe('#parseRequest()', function() {
 
@@ -7,29 +8,21 @@ describe('#parseRequest()', function() {
     parseRequest.should.be.a.Function()
   })
 
-  it('should set correct endpoint url', function() {
-    const testReq = {
-      path: '/users'
-    }
-
-    parseRequest(testReq).endpoint.should.be.exactly('/users')
-  })
-
   it('should set correct http method', function() {
-    const _req = {
+    const req = httpMocks.createRequest({
       method: 'POST'
-    }
+    })
 
-    const _req2 = {
+    const req2 = httpMocks.createRequest({
       method: 'DELETE'
-    }
+    })
 
-    parseRequest(_req).request.method.should.be.exactly(_req.method)
-    parseRequest(_req2).request.method.should.be.exactly(_req2.method)
+    parseRequest(req).request.method.should.be.exactly('POST')
+    parseRequest(req2).request.method.should.be.exactly('DELETE')
   })
 
-  it('should replace all values with type string', function() {
-    const _req = {
+  it('should replace all body values with type string', function() {
+    const req = httpMocks.createRequest({
       body: {
         name: 'Krzysztof',
         age: 25,
@@ -45,9 +38,9 @@ describe('#parseRequest()', function() {
         isAdmin: false,
         nullField: null
       }
-    }
+    })
 
-    const parsed = parseRequest(_req).request.body
+    const parsed = parseRequest(req).request.body
 
     parsed.name.should.equal('string')
     parsed.age.should.equal('number')
@@ -62,8 +55,5 @@ describe('#parseRequest()', function() {
 
     parsed.address.should.have.property('names').which.is.an.Array()
     parsed.address.names.should.deepEqual(['string'])
-
   })
-
-
 })

@@ -27,5 +27,18 @@ describe('Watchdocs Express.js', () => {
       watchdocs(req, res, next)
       next.should.be.calledOnce()
     })
+
+    it('should contain correct endpoint path', () => {
+      const req = httpMocks.createRequest({
+        url: '/users/:id'
+      })
+      const res = httpMocks.createResponse()
+
+      watchdocs(req, res)
+
+      res.should.have.property('report').which.is.an.Object()
+      res.report.should.have.property('endpoint').which.is.a.String()
+      res.report.endpoint.should.equal('/users/:id')
+    })
   })
 })
