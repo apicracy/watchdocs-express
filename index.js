@@ -1,19 +1,23 @@
 const R = require('ramda')
-const parseRequest = require('./lib/parse-request')
+const { parseRequest, parseResponse } = require('./lib/parsers')
+const { buildReport } = require('./lib/reports')
 
-const buildReport = (...params) => Object.assign({}, ...params)
+const watchdocs = ({ appId, appSecret }) => (req, res, next) => {
+  const endpointData = { endpoint: req.path }
+  const requestData = parseRequest(req)
 
-const wd = ({ app_id, app_secret }) => (req, res, next) => {
-  const data = { endpoint: req.path }
+  res.on('end', chunk => {
+    const responseData = parseResponse(res)
+    const report = buildReport(
+      endpointData,
+      requestData,
+      responseData
+    )
 
-  const report = buildReport(
-    data,
-    parseRequest(req)
-  )
+    res.report = report
+  })
 
-  res.report = report
-  next && next();
+  next && next()
 }
 
-module.exports = wd
-// usage: app.use(wd(APP_ID, APP_SECRET));
+module.exports = watchdocs

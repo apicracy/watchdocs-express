@@ -24,7 +24,10 @@ describe('Watchdocs Express.js', () => {
       const req = httpMocks.createRequest()
       const res = httpMocks.createResponse()
 
+
       watchdocs(req, res, next)
+
+      res.send(1)
       next.should.be.calledOnce()
     })
 
@@ -32,10 +35,14 @@ describe('Watchdocs Express.js', () => {
       const req = httpMocks.createRequest({
         url: '/users/:id'
       })
-      const res = httpMocks.createResponse()
+      const res = httpMocks.createResponse({
+        eventEmitter: require('events').EventEmitter
+      })
 
       watchdocs(req, res)
+      res.send(1)
 
+      res._isEndCalled().should.equal(true)
       res.should.have.property('report').which.is.an.Object()
       res.report.should.have.property('endpoint').which.is.a.String()
       res.report.endpoint.should.equal('/users/:id')
