@@ -27,20 +27,23 @@ describe('Watchdocs Express.js', () => {
 
       watchdocs(req, res, next)
 
-      res.send(1)
+      res.send('test')
       next.should.be.calledOnce()
     })
 
     it('should contain correct endpoint path', () => {
       const req = httpMocks.createRequest({
-        url: '/users/:id'
+        url: '/users/25',
+        params: {
+          id: '25'
+        }
       })
       const res = httpMocks.createResponse({
         eventEmitter: require('events').EventEmitter
       })
 
       watchdocs(req, res)
-      res.send(1)
+      res.send('kittens!')
 
       res._isEndCalled().should.equal(true)
       res.should.have.property('report').which.is.an.Object()
