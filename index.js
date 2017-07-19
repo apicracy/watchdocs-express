@@ -31,6 +31,10 @@ const watchdocs = (_options) => {
     }
   }
 
+  console.log(`
+    [Watchdocs.io]: * Watchdocs.io is listening for api calls *
+  `)
+
   /* return middleware function */
   return (req, res, next) => {
 
@@ -45,6 +49,9 @@ const watchdocs = (_options) => {
         responseData
       )
 
+      console.log(`
+        [Watchdocs.io]: * Registered call to ${report.endpoint} *
+      `)
       res.report = report
       generateReport(report, options)
     })
