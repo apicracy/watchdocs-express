@@ -160,5 +160,14 @@ describe('Parsing data', () => {
       body.should.containEql({ name: 'string', hobbies: ['string'] })
     })
 
+    it('should parse JSON structure', () => {
+      watchdocs(req, res)
+
+      res.json({ message: 'kittens!' })
+
+      const { body } = res.report.response
+      body.should.be.an.Object()
+    })
+
   })
 })
