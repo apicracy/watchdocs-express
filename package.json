@@ -12,7 +12,8 @@
   "author": "Apicracy",
   "license": "ISC",
   "dependencies": {
-    "ramda": "^0.24.1"
+    "ramda": "^0.24.1",
+    "request": "^2.81.0"
   },
   "devDependencies": {
     "mocha": "^3.4.2",

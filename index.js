@@ -7,7 +7,7 @@ const DEFAULT_OPTIONS = {
   appId: null,
   appSecret: null,
   host: 'https://watchdocs-api.herokuapp.com/api/v1/reports',
-  reportDirectory: '/temp'
+  batchSize: 10
 }
 
 const watchdocs = (_options) => {
@@ -16,11 +16,12 @@ const watchdocs = (_options) => {
 
   if (!isConfigured) {
     console.error(`
-      * Watchdocs.io express middleware error *
-      * It seems your middleware configuration is invalid
-      * Please check if appId and appSecret fields are specified
-      * For more inforamtion please see readme.md:
-      * https://github.com/kkalamarski/watchdocs-express
+      [Watchdocs.io]: * Watchdocs.io express middleware error *
+      [Watchdocs.io]: * ************************************* *
+      [Watchdocs.io]: * It seems your middleware configuration is invalid
+      [Watchdocs.io]: * Please check if appId and appSecret fields are specified
+      [Watchdocs.io]: * For more inforamtion please see readme.md:
+      [Watchdocs.io]: * https://github.com/kkalamarski/watchdocs-express
     `)
 
     /* silently fail, allowing application to continue, but disabling recording endpoint calls */
