@@ -6,7 +6,10 @@ const wd = require('../index.js')
 
 describe('Parsing data', () => {
   before(() => {
-    watchdocs = wd('12345', 'app-secret')
+    watchdocs = wd({
+      appId: '12345',
+      appSecret: 'app-secret'
+    })
   })
 
   describe('#parseRequest() - Request parser', function() {

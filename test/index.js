@@ -7,8 +7,24 @@ const wd = require('../index.js')
 
 describe('Watchdocs Express.js', () => {
   describe('#wd() - config function', () => {
-    it('should return valid express.js middleware function', () => {
-      (wd(12345, 123456)).should.be.a.Function()
+    let req, res
+
+    before(() => {
+      req = httpMocks.createRequest()
+      res = httpMocks.createResponse({
+        eventEmitter: require('events').EventEmitter
+      })
+    })
+
+    it('should be valid express.js middleware function', () => {
+      (wd({})).should.be.a.Function()
+    })
+
+    it('should silently fail if not configured', () => {
+      wd()(req, res).should.equal(false)
+      wd({})(req, res).should.equal(false)
+
+      wd({ appId: '1', appSecret: '1'})(req, res).should.equal(true)
     })
   })
 
@@ -16,7 +32,10 @@ describe('Watchdocs Express.js', () => {
     let watchdocs;
 
     before(() => {
-      watchdocs = wd('12345', 'app-secret')
+      watchdocs = wd({
+        appId: '12345',
+        appSecret: '1234567-secret'
+      })
     })
 
     it('should invoke next callback', () => {
