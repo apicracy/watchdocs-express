@@ -4,7 +4,8 @@
   "description": "Set of tools to plug your Express.js application into Watchdocs.io",
   "main": "index.js",
   "scripts": {
-    "test": "mocha"
+    "test": "mocha",
+    "coverage": "nyc mocha"
   },
   "keywords": [
     "watchdocs"
@@ -12,13 +13,12 @@
   "author": "Apicracy",
   "license": "ISC",
   "dependencies": {
-    "ramda": "^0.24.1",
     "request": "^2.81.0"
   },
   "devDependencies": {
     "mocha": "^3.4.2",
     "node-mocks-http": "^1.6.4",
-    "q": "^1.5.0",
+    "nyc": "^11.0.3",
     "should": "^11.2.1",
     "should-sinon": "0.0.5",
     "sinon": "^2.3.8"

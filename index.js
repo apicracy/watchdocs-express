@@ -1,4 +1,3 @@
-const R = require('ramda')
 const { parseRequest, parseResponse, parseEndpointUrl } = require('./lib/parsers')
 const { generateReport } = require('./lib/reports')
 const { validateOptions, responseDecorator } = require('./lib/utils')

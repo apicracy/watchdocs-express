@@ -77,56 +77,45 @@ describe('Parsing data', () => {
       res = httpMocks.createResponse({
         eventEmitter: require('events').EventEmitter
       })
+
+      watchdocs(req, res)
     })
 
     it('should read response from the server', () => {
-      watchdocs(req, res)
       res.status(200).json({ message: 'kittens!'})
 
       res.report.should.have.property('response')
     })
 
     it('should set correct response code', () => {
-      watchdocs(req, res)
-
       res.status(500).send('Error')
       res.report.response.status.should.equal(500)
     })
 
     it('should read and parse response body', () => {
-      watchdocs(req, res)
-
       res.send({ message: 'kittens!' })
       res.report.response.body.should.have.property('message')
       res.report.response.body.message.should.equal('string')
     })
 
     it('should correctly read string type', () => {
-      watchdocs(req, res)
-
       res.send('token')
       res.report.response.body.should.equal('string')
     })
 
     it('should correctly read string[] type', () => {
-      watchdocs(req, res)
-
       res.send(['red', 'yellow', 'blue'])
       res.report.response.should.have.property('body').which.is.an.Array()
       res.report.response.body[0].should.equal('string')
     })
 
     it('should correctly read number[] type', () => {
-      watchdocs(req, res)
-
       res.send([2, 3, 5, 7, 11, 13])
       res.report.response.should.have.property('body').which.is.an.Array()
       res.report.response.body[0].should.equal('number')
     })
 
     it('should correctly parse nested object structure', () => {
-      watchdocs(req, res)
-
       res.send({
         name: 'Krzysztof',
         age: 55,
@@ -149,8 +138,6 @@ describe('Parsing data', () => {
     })
 
     it('should correctly parse nested object[] structure', () => {
-      watchdocs(req, res)
-
       res.send([
         { name: 'Krzysztof', hobbies: ['hiking', 'javascript'] },
         { name: 'Anna', hobbies: ['skating', 'painting'] },
@@ -164,13 +151,10 @@ describe('Parsing data', () => {
     })
 
     it('should parse JSON structure', () => {
-      watchdocs(req, res)
-
       res.json({ message: 'kittens!' })
 
       const { body } = res.report.response
       body.should.be.an.Object()
     })
-
   })
 })
