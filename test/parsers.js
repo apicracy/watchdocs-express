@@ -88,7 +88,7 @@ describe('Parsing data', () => {
     })
 
     it('should set correct response code', () => {
-      res.status(500).send('Error')
+      res.status(500).send({ msg: 'Error!' })
       res.report.response.status.should.equal(500)
     })
 
@@ -98,9 +98,9 @@ describe('Parsing data', () => {
       res.report.response.body.message.should.equal('string')
     })
 
-    it('should correctly read string type', () => {
+    it('should abort when sent value is not valid JSON', () => {
       res.send('token')
-      res.report.response.body.should.equal('string')
+      res.should.have.property('report').which.is.a.Null()
     })
 
     it('should correctly read string[] type', () => {

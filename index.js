@@ -50,11 +50,19 @@ const watchdocs = (_options) => {
         responseData
       )
 
-      console.log(`
+      if (typeof(report.response.body) === 'object') {
+        console.log(`
 \x1b[32m[Watchdocs.io]:\x1b[0m * Registered call to [${requestData.request.method.toUpperCase()}] ${report.endpoint} *
-      `)
-      res.report = report
-      generateReport(report, options)
+        `)
+
+        res.report = report
+        generateReport(report, options)
+      } else {
+        res.report = null
+        console.error(`
+\x1b[31m[Watchdocs.io]:\x1b[0m * Response returned by [${requestData.request.method.toUpperCase()}] ${report.endpoint} is not a correct JSON, and was not saved.
+        `)
+      }
     })
 
     next && next()

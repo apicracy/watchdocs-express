@@ -62,7 +62,7 @@ describe('Watchdocs Express.js', () => {
       })
 
       watchdocs(req, res)
-      res.send('kittens!')
+      res.send({ msg: 'kittens!' })
 
       res._isEndCalled().should.equal(true)
       res.should.have.property('report').which.is.an.Object()
