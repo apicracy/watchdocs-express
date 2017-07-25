@@ -7,7 +7,7 @@ Set of tools to plug your Express.js application into Watchdocs.io.
 Watchdocs middleware can be installed directly from github via `npm`.
 
 ```
-$ npm install apicracy/watchdocs-express --save-dev
+$ npm install watchdocs-express --save
 ```
 
 ## Usage
