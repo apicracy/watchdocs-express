@@ -1,6 +1,6 @@
 const fs = require('fs')
 const path = require('path')
-const { generateReport, getReportPath } = require('../lib/reports')
+const { generateReport, getReportPath, sendReport } = require('../lib/reports')
 
 const defaultOptions = {
   appId: '123',
@@ -49,16 +49,12 @@ describe('Reports', () => {
       const fileContent = fs.readFileSync(reportFilePath, { encoding: 'utf8'})
       JSON.parse(fileContent).length.should.equal(2)
     })
+  })
 
-    it('should delete file and send report after collecting given number of records', () => {
-      const times = defaultOptions.batchSize
+  describe('#sendReport()', () => {
 
-      for(var i=0; i < times; i++){
-        generateReport({ data: 'test' + i }, defaultOptions)
-      }
-
-      fs.existsSync(reportFilePath).should.equal(false)
+    it('should return a promise', () => {
+      sendReport(defaultOptions).should.be.a.Promise()
     })
-
   })
 })

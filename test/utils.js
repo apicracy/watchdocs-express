@@ -1,4 +1,4 @@
-const { isJSON, sanitizeArray, sanitize } = require('../lib/utils')
+const { isJSON, sanitizeArray, sanitize, objToArray } = require('../lib/utils')
 
 describe('Utility functions', () => {
   describe('#isJSON()', () => {
@@ -41,6 +41,17 @@ describe('Utility functions', () => {
 
     it('should return empty object if no data is passed', () => {
       sanitize().should.deepEqual({})
+    })
+  })
+
+  describe('#objToArray()', () => {
+    it('should convert object to array', () => {
+      objToArray({ name: 'test', test: 'name' }).should.be.an.Array()
+    })
+
+    it('should handle invalid data type', () => {
+      objToArray().should.be.an.Array();
+      objToArray(null).should.be.an.Array();
     })
   })
 })

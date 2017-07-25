@@ -20,7 +20,10 @@ describe('Parsing data', () => {
 
     it('should set correct http method', function() {
       const req = httpMocks.createRequest({
-        method: 'POST'
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        }
       })
 
       const req2 = httpMocks.createRequest({
@@ -69,11 +72,15 @@ describe('Parsing data', () => {
   })
 
   // Response parser
-  describe('#parseRequest() - Response Parser', () => {
+  describe('#parseResponse() - Response Parser', () => {
     let req, res
 
     beforeEach(() => {
-      req = httpMocks.createRequest()
+      req = httpMocks.createRequest({
+        headers: {
+          'Content-Type': 'application/json',
+        }
+      })
       res = httpMocks.createResponse({
         eventEmitter: require('events').EventEmitter
       })
@@ -88,12 +95,12 @@ describe('Parsing data', () => {
     })
 
     it('should set correct response code', () => {
-      res.status(500).send({ msg: 'Error!' })
+      res.status(500).json({ msg: 'Error!' })
       res.report.response.status.should.equal(500)
     })
 
     it('should read and parse response body', () => {
-      res.send({ message: 'kittens!' })
+      res.json({ message: 'kittens!' })
       res.report.response.body.should.have.property('message')
       res.report.response.body.message.should.equal('string')
     })
@@ -104,19 +111,19 @@ describe('Parsing data', () => {
     })
 
     it('should correctly read string[] type', () => {
-      res.send(['red', 'yellow', 'blue'])
+      res.json(['red', 'yellow', 'blue'])
       res.report.response.should.have.property('body').which.is.an.Array()
       res.report.response.body[0].should.equal('string')
     })
 
     it('should correctly read number[] type', () => {
-      res.send([2, 3, 5, 7, 11, 13])
+      res.json([2, 3, 5, 7, 11, 13])
       res.report.response.should.have.property('body').which.is.an.Array()
       res.report.response.body[0].should.equal('number')
     })
 
     it('should correctly parse nested object structure', () => {
-      res.send({
+      res.json({
         name: 'Krzysztof',
         age: 55,
         address: {
@@ -138,7 +145,7 @@ describe('Parsing data', () => {
     })
 
     it('should correctly parse nested object[] structure', () => {
-      res.send([
+      res.json([
         { name: 'Krzysztof', hobbies: ['hiking', 'javascript'] },
         { name: 'Anna', hobbies: ['skating', 'painting'] },
         { name: 'Mark', hobbies: ['cooking', 'running', 'gym'] },

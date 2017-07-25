@@ -10,7 +10,11 @@ describe('Watchdocs Express.js', () => {
     let req, res
 
     before(() => {
-      req = httpMocks.createRequest()
+      req = httpMocks.createRequest({
+        headers: {
+          'Content-Type': 'application/json',
+        }
+      })
       res = httpMocks.createResponse({
         eventEmitter: require('events').EventEmitter
       })
@@ -40,18 +44,27 @@ describe('Watchdocs Express.js', () => {
 
     it('should invoke next callback', () => {
       const next = sinon.spy()
-      const req = httpMocks.createRequest()
-      const res = httpMocks.createResponse()
+      const req = httpMocks.createRequest({
+        headers: {
+          'Content-Type': 'application/json'
+        }
+      })
+      const res = httpMocks.createResponse({
+        eventEmitter: require('events').EventEmitter
+      })
 
 
       watchdocs(req, res, next)
 
-      res.send('test')
+      res.json({ msg: 'test' })
       next.should.be.calledOnce()
     })
 
     it('should contain correct endpoint path', () => {
       const req = httpMocks.createRequest({
+        headers: {
+          'Content-Type': 'application/json',
+        },
         url: '/users/25',
         params: {
           id: '25'
@@ -62,7 +75,7 @@ describe('Watchdocs Express.js', () => {
       })
 
       watchdocs(req, res)
-      res.send({ msg: 'kittens!' })
+      res.json({ msg: 'kittens!' })
 
       res._isEndCalled().should.equal(true)
       res.should.have.property('report').which.is.an.Object()
