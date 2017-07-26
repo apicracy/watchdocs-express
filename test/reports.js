@@ -56,5 +56,9 @@ describe('Reports', () => {
     it('should return a promise', () => {
       sendReport(defaultOptions).should.be.a.Promise()
     })
+
+    it('should not throw error when report file doesnt exist', () => {
+      sendReport(defaultOptions)
+    })
   })
 })

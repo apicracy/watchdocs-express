@@ -83,6 +83,9 @@ app.use(watchdocs(opts))
 * *batchSize* (optional, defaults to `10`)
   * Size of report batch sent to Watchdocs.io. Value can be any positive integer.
 
+* *verbose* (optional, defaults to `true`)
+  * Whether to show watchdocs logging in the console. (If it's set to `false` errors will be hidden too.)
+
 
 ## Contribution
 If you'd like to help improving this middleware please clone it on your machine and then open a Pull Request describing made changes.
